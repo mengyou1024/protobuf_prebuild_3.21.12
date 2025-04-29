@@ -20,17 +20,25 @@ function(target_add_proto_files target_name)
     set(PROTO_FILES ${PROTOBUF_PROTO_FILES})
     set(GENERATED_SRCS "")
     set(GENERATED_HDRS "")
+    set(GENERATED_INC_DIRS "")
 
     set(GENERATED_DIR "${CMAKE_CURRENT_BINARY_DIR}/protobuf_generated")
 
     foreach(PROTO_FILE ${PROTOBUF_PROTO_FILES})
         get_filename_component(PROTO_NAME ${PROTO_FILE} NAME_WE)
         get_filename_component(PROTO_DIR ${PROTO_FILE} DIRECTORY)
-        set(GENERATED_SRC "${GENERATED_DIR}/${PROTO_NAME}.pb.cc")
-        set(GENERATED_HDR "${GENERATED_DIR}/${PROTO_NAME}.pb.h")
+        set(GENERATED_SRC "${GENERATED_DIR}/${PROTO_DIR}/${PROTO_NAME}.pb.cc")
+        set(GENERATED_HDR "${GENERATED_DIR}/${PROTO_DIR}/${PROTO_NAME}.pb.h")
+        set(GENERATED_INC_DIR "${GENERATED_DIR}/${PROTO_DIR}")
 
         list(APPEND GENERATED_SRCS ${GENERATED_SRC})
         list(APPEND GENERATED_HDRS ${GENERATED_HDR})
+
+        list(FIND GENERATED_INC_DIRS ${GENERATED_INC_DIR} INDEX)
+
+        if(INDEX EQUAL -1)
+            list(APPEND GENERATED_INC_DIRS ${GENERATED_INC_DIR})
+        endif()
 
         add_custom_command(
             OUTPUT ${GENERATED_SRC} ${GENERATED_HDR}
@@ -43,7 +51,7 @@ function(target_add_proto_files target_name)
         )
     endforeach()
 
-    target_sources(${target_name} PRIVATE ${GENERATED_SRCS})
-    target_include_directories(${target_name} PRIVATE ${GENERATED_DIR})
-    target_link_libraries(${PROJECT_NAME} PRIVATE protobuf::libprotobuf)
+    target_sources(${target_name} PUBLIC ${GENERATED_SRCS} ${GENERATED_HDRS})
+    target_include_directories(${target_name} PUBLIC ${GENERATED_INC_DIRS} ${GENERATED_DIR})
+    target_link_libraries(${target_name} PUBLIC protobuf::libprotobuf)
 endfunction(target_add_proto_files target)
