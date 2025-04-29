@@ -32,4 +32,4 @@ target_include_directories(
 
 add_library(protobuf::libprotobuf ALIAS _protobuf)
 
-find_package(ProtoGenerator REQUIRED PATHS ${CMAKE_CURRENT_LIST_DIR}/cmake)
+set(ProtoGenerator_DIR "${CMAKE_CURRENT_SOURCE_DIR}/cmake" CACHE PATH "Path to the ProtoGenerator package" FORCE)

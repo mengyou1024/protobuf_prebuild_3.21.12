@@ -4,6 +4,8 @@ project(example)
 
 add_subdirectory(.. protobuf)
 
+find_package(ProtoGenerator REQUIRED)
+
 add_executable(${PROJECT_NAME} main.cpp)
 
 target_compile_options(${PROJECT_NAME} PUBLIC "/source-charset:utf-8")
