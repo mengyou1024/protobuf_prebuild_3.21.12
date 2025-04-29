@@ -31,3 +31,5 @@ target_include_directories(
 )
 
 add_library(protobuf::libprotobuf ALIAS _protobuf)
+
+find_package(ProtoGenerator REQUIRED PATHS ${CMAKE_CURRENT_LIST_DIR}/cmake)

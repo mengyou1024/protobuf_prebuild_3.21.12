@@ -4,8 +4,8 @@ project(example)
 
 add_subdirectory(.. protobuf)
 
-add_executable(${PROJECT_NAME} main.cpp Person.pb.cc)
+add_executable(${PROJECT_NAME} main.cpp)
 
-target_include_directories(${PROJECT_NAME} PUBLIC "include")
+target_compile_options(${PROJECT_NAME} PUBLIC "/source-charset:utf-8")
 
-target_link_libraries(${PROJECT_NAME} PRIVATE protobuf::libprotobuf)
+target_add_proto_files(${PROJECT_NAME} PROTO_FILES Person.proto)

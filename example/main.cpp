@@ -6,11 +6,11 @@ int main()
 {
     Person p;
     p.set_name("张三");
-    std::ofstream file("123.bin");
+    std::ofstream file("test.bin");
     p.SerializeToOstream(&file);
     file.flush();
     Person p2;
-    std::ifstream input("123.bin");
+    std::ifstream input("test.bin");
     p2.ParseFromIstream(&input);
     std::cout << p2.name();
     std::cout << "\n------------------------------\n";
