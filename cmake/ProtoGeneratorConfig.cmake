@@ -51,7 +51,7 @@ function(target_add_proto_files target_name)
         )
     endforeach()
 
-    target_sources(${target_name} PUBLIC ${GENERATED_SRCS} ${GENERATED_HDRS})
+    target_sources(${target_name} PRIVATE ${GENERATED_SRCS} ${GENERATED_HDRS})
     target_include_directories(${target_name} PUBLIC ${GENERATED_INC_DIRS} ${GENERATED_DIR})
     target_link_libraries(${target_name} PUBLIC protobuf::libprotobuf)
 endfunction(target_add_proto_files target)
